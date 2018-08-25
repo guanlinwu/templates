@@ -1,0 +1,21 @@
+@import './mixins.scss';
+
+.f-left{float:left}
+.f-right{float:right}
+.f-clearfix{zoom:1;clear:both}
+.f-clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}
+.hide,.none{display:none}
+.show{display:block}
+.hardline{position:relative}
+.hardline::before{content:'';position:absolute;top:0;left:0;width:200%;height:200%;transform-origin: 0 0;transform:scale(.5);border:1px solid transparent;pointer-events:none;box-sizing:border-box}
+
+/**
+ * 渐进动画
+*/
+.f-fade-enter-active, .f-fade-leave-active {
+  transition: opacity .2s;
+  opacity: 1;
+}
+.f-fade-enter, .f-fade-leave-active {
+  opacity: 0;
+}

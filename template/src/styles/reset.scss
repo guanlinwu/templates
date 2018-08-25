@@ -1,0 +1,21 @@
+/*css reset*/
+blockquote,body,button,code,dd,div,dl,dt,fieldset,figure,form,h1,h2,h3,h4,h5,h6,input,legend,li,ol,p,pre,td,textarea,th,ul{padding:0;margin:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}
+li,ol,ul{list-style:none}
+a{text-decoration:none;cursor: pointer;}
+table{border-collapse:collapse;border-spacing:0}
+body{-webkit-overflow-scrolling:touch;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none}
+input {-webkit-appearance: none;border: none;outline:none;}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"]{
+  -moz-appearance: textfield;
+}
+:focus{outline:0}
+*{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color: transparent;}
+body,html{-webkit-user-select:none;user-select:none;font-family:PingFang-SC-Regular,Helvetica Neue,Helvetica,microsoft yahei,sans-serif}
+html{-webkit-text-size-adjust:none;font-size:50px}
+img{display: block;width: 100%;border:none;pointer-events: none;}//pointer-events: none; 是为了防止安卓点击图片弹出
