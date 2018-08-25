@@ -57,12 +57,12 @@ module.exports = {
         message: 'SinglePage or MultiPage?',
         choices: [
             {
-                name: 'SinglePage',
+                name: 'Yes, use SinglePage',
                 value: 'SinglePage',
                 short: 'SinglePage'
             },
             {
-                name: 'MultiPage',
+                name: 'Yes, use MultiPage',
                 value: 'MultiPage',
                 short: 'MultiPage'
             }
@@ -71,26 +71,25 @@ module.exports = {
     autoInstall: {
       when: 'isNotTest',
       type: 'list',
-      message:
-        'Should we run `npm install` for you after the project has been created? (recommended)',
+      message: 'Should we run `npm install` for you after the project has been created? (recommended)',
       choices: [
         {
           name: 'Yes, use NPM',
           value: 'npm',
-          short: 'npm',
+          short: 'npm'
         },
         {
           name: 'Yes, use Yarn',
           value: 'yarn',
-          short: 'yarn',
+          short: 'yarn'
         },
         {
           name: 'No, I will handle that myself',
           value: false,
-          short: 'no',
-        },
-      ],
-    },
+          short: 'no'
+        }
+      ]
+    }
   },
   filters: {
     'index.html'     : "templateType === 'SinglePage'",
