@@ -51,28 +51,6 @@ module.exports = {
       type: 'string',
       message: 'Author',
     },
-    autoInstall: {
-      when: 'isNotTest',
-      type: 'list',
-      message: 'Should we run `npm install` for you after the project has been created? (recommended)',
-      choices: [
-        {
-          name: 'Yes, use NPM',
-          value: 'npm',
-          short: 'npm'
-        },
-        {
-          name: 'Yes, use Yarn',
-          value: 'yarn',
-          short: 'yarn'
-        },
-        {
-          name: 'No, I will handle that myself',
-          value: false,
-          short: 'no'
-        }
-      ]
-    },
     templateType: {
         when: 'isNotTest',
         type: 'list',
@@ -87,6 +65,28 @@ module.exports = {
                 name: 'Yes, use MultiPage',
                 value: 'MultiPage',
                 short: 'MultiPage'
+            }
+        ]
+    },
+    autoInstall: {
+        when: 'isNotTest',
+        type: 'list',
+        message: 'Install npm package after the project has been created?',
+        choices: [
+            {
+              name: 'Yes, use NPM',
+              value: 'npm',
+              short: 'npm'
+            },
+            {
+              name: 'Yes, use Yarn',
+              value: 'yarn',
+              short: 'yarn'
+            },
+            {
+              name: 'No, I will handle that myself',
+              value: false,
+              short: 'no'
             }
         ]
     }
