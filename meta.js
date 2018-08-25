@@ -51,23 +51,6 @@ module.exports = {
       type: 'string',
       message: 'Author',
     },
-    templateType: {
-        when: 'isNotTest',
-        type: 'list',
-        message: 'SinglePage or MultiPage?',
-        choices: [
-            {
-                name: 'Yes, use SinglePage',
-                value: 'SinglePage',
-                short: 'SinglePage'
-            },
-            {
-                name: 'Yes, use MultiPage',
-                value: 'MultiPage',
-                short: 'MultiPage'
-            }
-        ]
-    },
     autoInstall: {
       when: 'isNotTest',
       type: 'list',
@@ -89,6 +72,23 @@ module.exports = {
           short: 'no'
         }
       ]
+    },
+    templateType: {
+        when: 'isNotTest',
+        type: 'list',
+        message: 'SinglePage or MultiPage?',
+        choices: [
+            {
+                name: 'Yes, use SinglePage',
+                value: 'SinglePage',
+                short: 'SinglePage'
+            },
+            {
+                name: 'Yes, use MultiPage',
+                value: 'MultiPage',
+                short: 'MultiPage'
+            }
+        ]
     }
   },
   filters: {
