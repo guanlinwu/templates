@@ -2,15 +2,15 @@
   <transition name='f-fade'>
     <div class="dialog" @click.self.stop="!dialog.preventMaskClose && !!closeDialog && closeDialog()" v-show="dialog.isShow">
       <div class="content">
-          <header v-if="!!dialog.title && dialog.title !== ''" class="title">\{{dialog.title}}</header>
+          <header v-if="!!dialog.title && dialog.title !== ''" class="title">{{dialog.title}}</header>
           <div class="messages hardline">
               <slot>
                 <div v-html="dialog.message"></div>
               </slot>
           </div>
-          <div name="footer" class="dialog-footer">
+          <div v-if="dialog.isShowFooter" name="footer" class="dialog-footer">
             <slot name="footer">
-              <a v-for="(item, index) in dialog.footer" :key="`btn-${index}`" @click="!!item.callBack ? item.callBack() : closeDialog()" class="btn hardline" href="javascript:;">\{{item.text}}</a>
+              <a v-for="(item, index) in dialog.footer" :key="`btn-${index}`" @click="!!item.callBack ? item.callBack() : closeDialog()" class="btn hardline" href="javascript:;">{{item.text}}</a>
             </slot>
           </div>
       </div>
@@ -86,8 +86,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-$text-color: #4bb0e5; //文本颜色
+$text-color: #4bb0e5; //弹窗文本颜色
 $footer-bg-color: #4bb0e5; //底部按钮背景颜色
+
+$footer-text-first-color: #fff; //第一个按钮的文本颜色
+$footer-bg-first-color: #4bb0e5; //第一个按钮的背景颜色
+
+$footer-text-last-color: #4bb0e5; //第二个按钮的文本颜色
+$footer-bg-last-color: #fff; //第二个按钮的背景颜色
 
 .dialog {
     position: fixed;
@@ -158,11 +164,16 @@ $footer-bg-color: #4bb0e5; //底部按钮背景颜色
             height: 0.9rem;
             line-height: 0.9rem;
             font-size: 0.28rem;
-            color: #fff;
             text-align: center;
 
             &:first-child {
-                color: #fff;
+              color: $footer-text-first-color;
+              background-color: $footer-bg-first-color;
+            }
+
+            &:nth-child(2) {
+              color: $footer-text-last-color;
+              background-color: $footer-bg-last-color;
             }
 
             &:not(:first-child)::before {

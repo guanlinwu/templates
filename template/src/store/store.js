@@ -14,6 +14,7 @@ export default new Vuex.Store({
     dialogOrigin: { //dialog的原始值
       title: '',
       message: '',
+      isShowFooter: true,
       isShow: false,
       footer: {
         confirm: {
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     dialog: {
       title: '',
       message: '',
+      isShowFooter: true,
       isShow: false,
       footer: {
         confirm: {
