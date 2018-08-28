@@ -55,6 +55,13 @@ export default {
     isShowRules !== undefined ? state.isShowRules = isShowRules : state.isShowRules = !state.isShowRules;
   },
   /**
+   * 显示或者隐藏二维码
+   * @param {*} state
+   */
+  toggleQrDialog(state) {
+    state.qrDialog.isShow = !state.qrDialog.isShow;
+  },
+  /**
    * 隐藏或者是否显示分享提示
    *
    */

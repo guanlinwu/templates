@@ -32,6 +32,7 @@ export default new Vuex.Store({
       title: '',
       message: '',
       isShow: false,
+      isShowFooter: true,
       footer: {
         confirm: {
           text: '确认'
@@ -52,6 +53,14 @@ export default new Vuex.Store({
         confirm: {
           text: '确认'
         }
+      }
+    },
+    qrDialog: {
+      title: '参与活动需先关注公众号',
+      message: '',
+      preventMaskClose: false, //点击蒙层是否可以关闭
+      isShow: false,
+      footer: {
       }
     },
     isShowLogin: false, //是否登录

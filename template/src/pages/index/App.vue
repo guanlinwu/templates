@@ -19,7 +19,11 @@
     <SharePop :isShow="isShowShareTips" :close="toggleShareTips"/>
     <!-- 登录框 -->
     <LoginDialog :isShow="isShowLogin" :submitSuccessCb="setUserSituation"></LoginDialog>
-    <!-- <router-view/> -->
+    <!-- 关注二维码对话框 -->
+    <Dialog :dialog="qrDialog">
+      <p class="qrcode-tips">长按识别或扫描以下二维码关注茂名移动公众号</p>
+      <img class="img-qrcode" src="./assets/images/qrcode.jpg" alt="">
+    </Dialog>
   </div>
 </template>
 
@@ -123,5 +127,16 @@ html {
 .content {
 
 }
+//二维码弹窗
+.qrcode-tips {
+  font-size: 0.2rem;
+  color: #888;
+  text-align: center;
+}
 
+.img-qrcode {
+  margin: 0.16rem auto 0.4rem;
+  width: 4rem;
+  pointer-events: auto;
+}
 </style>

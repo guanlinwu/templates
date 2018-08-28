@@ -2,7 +2,7 @@
   <transition name='f-fade'>
     <div class="dialog" @click.self.stop="!dialog.preventMaskClose && !!closeDialog && closeDialog()" v-show="dialog.isShow">
       <div class="content">
-          <header v-if="!!dialog.title && dialog.title !== ''" class="title">{{dialog.title}}</header>
+          <header v-if="!!dialog.title && dialog.title !== ''" class="title">\{{dialog.title}}</header>
           <div class="messages hardline">
               <slot>
                 <div v-html="dialog.message"></div>
@@ -10,7 +10,7 @@
           </div>
           <div v-if="dialog.isShowFooter" name="footer" class="dialog-footer">
             <slot name="footer">
-              <a v-for="(item, index) in dialog.footer" :key="`btn-${index}`" @click="!!item.callBack ? item.callBack() : closeDialog()" class="btn hardline" href="javascript:;">{{item.text}}</a>
+              <a v-for="(item, index) in dialog.footer" :key="`btn-${index}`" @click="!!item.callBack ? item.callBack() : closeDialog()" class="btn hardline" href="javascript:;" v-html="item.text"></a>
             </slot>
           </div>
       </div>

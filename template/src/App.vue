@@ -63,29 +63,6 @@ export default {
     this.$loading().show();
     Api.userSituation().then((res) => {
       this.$loading().hide();
-      let self = this,
-        status = res.content.status;
-      if (res.flag) { //如果成功获取号码
-        this.setUserSituation(res);
-      } else { //如果获取号码失败
-        if (this.$route.name !== 'index') {
-          this.$router.push('/index');
-        }
-
-        switch (+status) {
-          case -204: //没有关注
-            self.toggleQrDialog(true);
-            break;
-          case -201: //请先绑定手机号
-            self.toggleLogin(true);
-            break;
-          default:
-            self.$toast({
-              message: res.message
-            });
-            break;
-        }
-      }
     }, () => {
       this.$loading().hide();
     });
@@ -143,7 +120,6 @@ export default {
 <style lang="scss">
 
 html {
-  background-color: #e81b3a;
   min-height: 100%;
   text-align: center;
 }
