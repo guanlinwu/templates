@@ -12,11 +12,6 @@
     <!-- <SharePop :isShow="isShowShareTips" :close="toggleShareTips"/> -->
     <!-- 登录框 -->
     <LoginDialog :isShow="isShowLogin" :submitSuccessCb="setUserSituation"></LoginDialog>
-    <!-- 关注二维码对话框 -->
-    <Dialog :dialog="qrDialog">
-      <p class="qrcode-tips">长按识别或扫描以下二维码关注茂名移动公众号</p>
-      <img class="img-qrcode" src="./assets/images/qrcode.jpg" alt="">
-    </Dialog>
   </div>
 </template>
 
@@ -50,7 +45,6 @@ export default {
   computed: {
     ...mapState([
       'userInfo',
-      'qrDialog',
       'dialog',
       'isShowLogin'
       // 'isShowShareTips'
@@ -100,7 +94,6 @@ export default {
       'toggleLogin',
       'showDialog',
       'toggleRule',
-      'toggleQrDialog',
       'closeDialog'
     ]),
     /**
