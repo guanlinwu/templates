@@ -15,6 +15,9 @@
     <!-- 对话框 -->
     <Dialog :dialog="dialog" :closeDialog="closeDialog">
     </Dialog>
+    <!-- 对话框 -->
+    <QrDialog :qrDialog="qrDialog">
+    </QrDialog>
     <!-- 分享蒙层 -->
     <SharePop :isShow="isShowShareTips" :close="toggleShareTips"/>
     <!-- 登录框 -->
@@ -28,6 +31,7 @@ import { mapState, mapMutations } from 'vuex';
 import SharePop from '@/components/common/SharePop/SharePop';
 import Footer from '@/components/common/Footer/Footer';
 import Dialog from '@/components/common/Dialog/Dialog';
+import QrDialog from '@/components/common/QrDialog/QrDialog';
 
 import RulePop from '@/components/business/RulePop';
 import RuleNormal from '@/components/business/RuleNormal';
@@ -45,6 +49,7 @@ export default {
   components: {
     // UserInfo, //用户信息
     Dialog, //弹窗
+    QrDialog, //弹窗
     RulePop, //弹窗活动规则
     RuleNormal, //不弹窗的活动规则
     SharePop, //分享蒙层
@@ -55,6 +60,7 @@ export default {
     ...mapState([
       // 'userInfo',
       'dialog',
+      'qrDialog',
       'isShowLogin',
       'isShowShareTips',
       'isShowRules'
@@ -76,16 +82,17 @@ export default {
       //   this.$loading().hide();
       // });
     });
-    // this.showDialog({
-    //   title: '欢迎',
-    //   message: '这是一个弹框，点击确认或者黑色遮罩会消失'
-    // });
-    // this.toggleRule();
-    // this.toggleLogin();
-    // this.$toast({message: 'welcome! loginbox will disappear after 4S'});
-    // setTimeout(() => {
-    //   this.toggleLogin();
-    // }, 4000);
+    this.toggleQrDialog();
+    this.showDialog({
+      title: '欢迎',
+      message: '这是一个弹框，点击确认或者黑色遮罩会消失'
+    });
+    this.toggleRule();
+    this.toggleLogin();
+    this.$toast({message: 'welcome! loginbox will disappear after 4S'});
+    setTimeout(() => {
+      this.toggleLogin();
+    }, 4000);
   },
   methods: {
     ...mapMutations([
@@ -93,6 +100,7 @@ export default {
       'toggleLogin',
       'showDialog',
       'toggleRule',
+      'toggleQrDialog',
       'toggleShareTips',
       'closeDialog'
     ]),
@@ -122,16 +130,5 @@ html {
 .content {
 
 }
-//二维码弹窗
-.qrcode-tips {
-  font-size: 0.2rem;
-  color: #888;
-  text-align: center;
-}
 
-.img-qrcode {
-  margin: 0.16rem auto 0.4rem;
-  width: 4rem;
-  pointer-events: auto;
-}
 </style>

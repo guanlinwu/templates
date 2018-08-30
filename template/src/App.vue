@@ -1,12 +1,6 @@
 <template>
   <div class="wrapper" id="app">
-    <!-- loading -->
-    <section class="banner">
-      <!-- 用户信息 -->
-    </section>
-    <section class="content">
-      vue脚手架
-    </section>
+    <router-view/>
     <!-- 活动规则 -->
     <RulePop :isShow="isShowRules"/>
     <RuleNormal/>
@@ -129,17 +123,5 @@ html {
 
 .content {
 
-}
-//二维码弹窗
-.qrcode-tips {
-  font-size: 0.2rem;
-  color: #888;
-  text-align: center;
-}
-
-.img-qrcode {
-  margin: 0.16rem auto 0.4rem;
-  width: 4rem;
-  pointer-events: auto;
 }
 </style>
