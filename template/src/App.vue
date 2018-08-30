@@ -1,15 +1,25 @@
 <template>
   <div class="wrapper" id="app">
-    <router-view/>
+    <!-- loading -->
+    <section class="banner">
+      <!-- 用户信息 -->
+    </section>
+    <section class="content">
+      vue脚手架
+    </section>
     <!-- 活动规则 -->
-    <!-- <RulePop :isShow="isShowRules"/> -->
+    <RulePop :isShow="isShowRules"/>
+    <RuleNormal/>
     <!-- 底部 -->
     <Footer></Footer>
     <!-- 对话框 -->
     <Dialog :dialog="dialog" :closeDialog="closeDialog">
     </Dialog>
+    <!-- 对话框 -->
+    <QrDialog :qrDialog="qrDialog">
+    </QrDialog>
     <!-- 分享蒙层 -->
-    <!-- <SharePop :isShow="isShowShareTips" :close="toggleShareTips"/> -->
+    <SharePop :isShow="isShowShareTips" :close="toggleShareTips"/>
     <!-- 登录框 -->
     <LoginDialog :isShow="isShowLogin" :submitSuccessCb="setUserSituation"></LoginDialog>
   </div>
@@ -17,12 +27,14 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import Api from '@/api';
-// import SharePop from '@/components/common/SharePop/SharePop';
+// import Api from '@/api';
+import SharePop from '@/components/common/SharePop/SharePop';
 import Footer from '@/components/common/Footer/Footer';
 import Dialog from '@/components/common/Dialog/Dialog';
+import QrDialog from '@/components/common/QrDialog/QrDialog';
 
-// import RulePop from '@/components/business/RulePop';
+import RulePop from '@/components/business/RulePop';
+import RuleNormal from '@/components/business/RuleNormal';
 import LoginDialog from '@/components/business/LoginDialog';
 
 
@@ -37,29 +49,22 @@ export default {
   components: {
     // UserInfo, //用户信息
     Dialog, //弹窗
-    // RulePop, //弹窗活动规则
-    // SharePop, //分享蒙层
+    QrDialog, //弹窗
+    RulePop, //弹窗活动规则
+    RuleNormal, //不弹窗的活动规则
+    SharePop, //分享蒙层
     Footer, //底部
     LoginDialog //登录
   },
   computed: {
     ...mapState([
-      'userInfo',
+      // 'userInfo',
       'dialog',
-      'isShowLogin'
-      // 'isShowShareTips'
+      'qrDialog',
+      'isShowLogin',
+      'isShowShareTips',
+      'isShowRules'
     ])
-  },
-  created () {
-    /**
-     * 初始化获取用户信息
-     */
-    this.$loading().show();
-    Api.userSituation().then((res) => {
-      this.$loading().hide();
-    }, () => {
-      this.$loading().hide();
-    });
   },
   mounted () {
     this.$nextTick(function () {
@@ -77,16 +82,17 @@ export default {
       //   this.$loading().hide();
       // });
     });
-    // this.showDialog({
-    //   title: '欢迎',
-    //   message: '这是一个弹框，点击确认或者黑色遮罩会消失'
-    // });
-    // this.toggleRule();
-    // this.toggleLogin();
-    // this.$toast({message: 'welcome! loginbox will disappear after 4S'});
-    // setTimeout(() => {
-    //   this.toggleLogin();
-    // }, 4000);
+    this.toggleQrDialog();
+    this.showDialog({
+      title: '欢迎',
+      message: '这是一个弹框，点击确认或者黑色遮罩会消失'
+    });
+    this.toggleRule();
+    this.toggleLogin();
+    this.$toast({message: 'welcome! loginbox will disappear after 4S'});
+    setTimeout(() => {
+      this.toggleLogin();
+    }, 4000);
   },
   methods: {
     ...mapMutations([
@@ -94,15 +100,14 @@ export default {
       'toggleLogin',
       'showDialog',
       'toggleRule',
+      'toggleQrDialog',
+      'toggleShareTips',
       'closeDialog'
     ]),
-    /**
-     * 处理初始化用户信息接口
-     */
     setUserSituation (res) {
       let content = res.content;
       this.setUserInfo({
-        ...content.userInfo
+        ...content
       });
     }
   }
@@ -113,17 +118,18 @@ export default {
 <style lang="scss">
 
 html {
+  background-color: #fff;
   min-height: 100%;
   text-align: center;
 }
 
 .wrapper {
+  background: #f3f4f5;
 }
 
 .content {
 
 }
-
 //二维码弹窗
 .qrcode-tips {
   font-size: 0.2rem;
@@ -135,23 +141,5 @@ html {
   margin: 0.16rem auto 0.4rem;
   width: 4rem;
   pointer-events: auto;
-}
-
-// animation
-.a-pulse {
-  animation: pulse 1s ease-in-out infinite;
-}
-@keyframes pulse {
-  from {
-    transform: scale3d(1, 1, 1);
-  }
-
-  50% {
-    transform: scale3d(1.1, 1.1, 1.1);
-  }
-
-  to {
-    transform: scale3d(1, 1, 1);
-  }
 }
 </style>
