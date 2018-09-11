@@ -35,8 +35,8 @@ setUserSituation (res) { //业务逻辑
                         <input v-model="phone" type="tel" maxlength="11" class="j-phone" placeholder="请在此输入手机号码" />
                     </div>
                     <div class="input-item">
-                        <input v-model="code" class="e-code j-code" type="number" placeholder="请在此输入验证码" />
-                        <a @click="getCode" class="btn-code j-get-code" :class="{'e-disable' : isGettingCode}" href="javascript:;">\{{codeText}}</a>
+                        <input v-model="code" class="e-code j-code" type="tel" maxlength="6"  placeholder="请在此输入验证码" />
+                        <a @click="readyGetCode" class="btn-code j-get-code" :class="{'e-disable' : isGettingCode}" href="javascript:;">\{{codeText}}</a>
                     </div>
                 </div>
             </div>
@@ -44,6 +44,12 @@ setUserSituation (res) { //业务逻辑
                 <a @click="submitLogin" class="btn hardline j-login" href="javascript:;">提交</a>
             </div>
         </div>
+      <GraphCode
+      :graphDialog="graphDialog"
+      :inputGraph="inputGraph"
+      @inputGraph="inputGraph = $event"
+      :closeGraphDialog="()=>{graphDialog.isShow=false;}"
+      />
     </div>
   </transition>
 </template>
@@ -52,24 +58,41 @@ setUserSituation (res) { //业务逻辑
 import { mapState, mapMutations } from 'vuex';
 import Api from '@/api';
 import Public from '@/scripts/Public';
+import GraphCode from '@/components/common/GraphCode/GraphCode';
+
 export default {
   name: 'LoginDialog',
   props: {
     isShow: Boolean, //是否显示登录框
     submitSuccessCb: Function //成功登录的回调函数
   },
-  data () {
+  data() {
     return {
-      phone : '',
-      code : '',
+      phone: '',
+      code: '',
       isGettingCode: false, //是否正在获取验证码
-      codeText: '获取验证码'
+      codeText: '获取验证码',
+      inputGraph: '', //图形验证码的取值
+      graphDialog: { //图形验证码
+        isShow: false,
+        title: '请输入验证码',
+        footer: {
+          confirm: {
+            text: '确认'
+          },
+          cancel: {
+            text: '取消'
+          }
+        }
+      }
     }
+  },
+  components: {
+    GraphCode
   },
   computed: {
     ...mapState([
-      'userInfo',
-      'lotteryPlateDom'
+      'userInfo'
     ])
   },
   methods: {
@@ -81,7 +104,7 @@ export default {
     /**
      * 获取验证码
      */
-    getCode () {
+    readyGetCode() {
       /**
        * 如果正在获取验证码
        */
@@ -96,60 +119,80 @@ export default {
             message: '请输入正确格式的手机号码'
           });
         } else {
-          let data = {
-            phone : self.phone
-          }
-          /**
-           * 如果是格式正确的验证码
-           */
-          self.isGettingCode = true;
-          self.$loading().show();
-
-          Api.userVerifyCode(data).then(res => {
-            self.$loading().hide();
-            if (res.flag) { //如果返回成功
-              self.$toast({
-                message: res.message
-              });
-
-              let count = 90,
-                timer = setInterval(function () {
-                  count--;
-                  if (count <= 0) {
-                    clearInterval(timer);
-                    self.codeText = '获取验证码';
-                    self.isGettingCode = false;
-                  } else {
-                    self.codeText = '已发送' + count + 's';
-                  }
-                }, 1000);
-            } else { //后端返回获取失败信息
-              self.$toast({
-                message: res.message
-              });
-              self.isGettingCode = false;
+          self.inputGraph = '';
+          self.graphDialog = {
+            isShow: true,
+            title: '请输入验证码',
+            isShowFooter: true,
+            footer: {
+              confirm: {
+                text: '确认',
+                callBack() {
+                  self.fetchCode()
+                }
+              },
+              cancel: {
+                text: '取消'
+              }
             }
-          }, error => {
-            self.$loading().hide();
-            self.isGettingCode = false;
-            // self.$toast({
-            //   message: '网络状态不好～'
-            // });
-            console.log(`message: '网络状态不好～'`)
-          })
-
+          };
         }
       }
-    }, // end getCode
+    }, // end readyGetCode
+    fetchCode() {
+      let self = this;
+      let data = {
+        phone: self.phone,
+        graphCode: self.inputGraph
+      }
+      /**
+       * 如果是格式正确的验证码
+       */
+      self.isGettingCode = true;
+      self.$loading().show();
+
+      Api.userVerifyCode(data).then(res => {
+        self.$loading().hide();
+        if (res.flag) { //如果返回成功
+          self.$toast({
+            message: res.message
+          });
+
+          let count = 90,
+            timer = setInterval(function () {
+              count--;
+              if (count <= 0) {
+                clearInterval(timer);
+                self.codeText = '获取验证码';
+                self.isGettingCode = false;
+              } else {
+                self.codeText = '已发送' + count + 's';
+              }
+            }, 1000);
+        } else { //后端返回获取失败信息
+          self.$toast({
+            message: res.message
+          });
+          self.isGettingCode = false;
+        }
+      }, error => {
+        self.$loading().hide();
+        self.isGettingCode = false;
+        // self.$toast({
+        //   message: '网络状态不好～'
+        // });
+        console.log(`message: '网络状态不好～'`)
+      })
+    },
     /**
      * 提交手机号和验证码
      */
-    submitLogin () {
+    submitLogin() {
       let _code = this.code,
         _phone = this.phone,
         _data = {
-          phone : _phone,
-          code : _code
+          phone: _phone,
+          code: _code
         },
         self = this;
 
@@ -176,10 +219,8 @@ export default {
             self.submitSuccessCb && typeof self.submitSuccessCb === 'function' && self.submitSuccessCb(res);
 
           } else { //登录失败
-            this.setUserInfo({
-              lineServiceUrl: res.content.lineServiceUrl
-            });
-            self.$toast({message: res.message});
+
+            self.$toast({ message: res.message });
           }
         }, error => {
           self.$loading().hide();
@@ -202,67 +243,66 @@ $input-border-color: #d4d4d4;
 $code-bg-color: #4bb0e5;
 $code-color: #fff;
 
-  .e-login {
+.e-login {
+  .content {
+    padding: 0;
+  }
 
-    .content {
-        padding: 0;
+  .messages {
+    padding: 0.44rem 0.24rem;
+    min-height: 2.1rem;
+  }
+
+  .input-box {
+    position: relative;
+
+    & input {
+      width: 100%;
+      height: 0.76rem;
+      padding-left: 0.3rem;
+      font-size: 0.24rem;
+      line-height: 0.76rem;
+      color: $input-color;
+      border-radius: 0.4rem;
+      -webkit-appearance: none;
+      outline: none;
+      border: 1px solid $input-border-color;
+
+      &.e-code {
+        padding-right: 2rem;
+      }
     }
 
-    .messages {
-        padding: .44rem .24rem;
-        min-height: 2.1rem;
+    .input-item {
+      position: relative;
+      margin-top: 0.18rem;
+      text-align: left;
+      font-size: 0;
     }
 
-    .input-box {
-        position: relative;
-
-        & input {
-            width: 100%;
-            height: 0.76rem;
-            padding-left: 0.3rem;
-            font-size: 0.24rem;
-            line-height: 0.76rem;
-            color: $input-color;
-            border-radius: 0.4rem;
-            -webkit-appearance: none;
-            outline:none;
-            border: 1px solid $input-border-color;
-
-            &.e-code {
-                padding-right: 2rem;
-            }
-        }
-
-        .input-item {
-            position: relative;
-            margin-top: 0.18rem;
-            text-align: left;
-            font-size: 0;
-        }
-
-        .input-item:first-child {
-            margin-top: 0;
-        }
-
-        .btn-code {
-            position: absolute;
-            top: 50%;
-            right: 0.1rem;
-            transform: translateY(-50%);
-            width: 1.9rem;
-            height: .6rem;
-            line-height: .6rem;
-            color: $code-color;
-            font-size: 0.24rem;
-            background: $code-bg-color;
-            text-align: center;
-            border-radius: 0.3rem;
-
-            &.e-disable {
-                background: #ccc;
-                pointer-events: none;
-            }
-        }
+    .input-item:first-child {
+      margin-top: 0;
     }
+
+    .btn-code {
+      position: absolute;
+      top: 50%;
+      right: 0.1rem;
+      transform: translateY(-50%);
+      width: 1.9rem;
+      height: 0.6rem;
+      line-height: 0.6rem;
+      color: $code-color;
+      font-size: 0.24rem;
+      background: $code-bg-color;
+      text-align: center;
+      border-radius: 0.3rem;
+
+      &.e-disable {
+        background: #ccc;
+        pointer-events: none;
+      }
+    }
+  }
 }
 </style>
