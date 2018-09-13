@@ -26,21 +26,21 @@ setUserSituation (res) { //业务逻辑
     <!-- <div class="dialog e-login" @click.self.stop="toggleLogin(false)" v-show=isShow> -->
     <div class="u-login e-login" v-show=isShow>
       <div class="content">
-          <!-- <header class="title">登录</header> -->
-          <div class="input-box">
-            <div class="input-item">
-                <input v-model="phone" type="tel" maxlength="11" class="j-phone" placeholder="请在此输入手机号码" />
-            </div>
-            <div class="input-item">
-                <input v-model="code" class="e-code j-code" type="number" placeholder="请在此输入验证码" />
-                <a @click="readyGetCode" class="btn-code j-get-code" :class="{'e-disable' : isGettingCode}" href="javascript:;">\{{codeText}}</a>
-            </div>
+        <!-- <header class="title">登录</header> -->
+        <div class="input-box">
+          <div class="input-item">
+              <input v-model="phone" type="tel" maxlength="11" class="j-phone" placeholder="请在此输入手机号码" />
+          </div>
+          <div class="input-item">
+              <input v-model="code" class="e-code j-code" type="number" placeholder="请在此输入验证码" />
+              <a @click="readyGetCode" class="btn-code j-get-code" :class="{'e-disable' : isGettingCode}" href="javascript:;">\{{codeText}}</a>
           </div>
         </div>
-        <div class="footer">
-            <a @click="submitLogin" class="btn hardline j-login" href="javascript:;">提交</a>
-        </div>
-        <p class="agree-rule"><span @click="toggleAgreeRules" class="is-agree" :class="{'e-active': isAgreeRule}"></span>我已阅读并同意 <span @click="$store.commit('toggleRule', true)" class="em">《活动规则》</span> </p>
+      </div>
+      <div class="footer">
+          <a @click="submitLogin" class="btn hardline j-login" href="javascript:;">提交</a>
+      </div>
+      <p class="agree-rule"><span @click="toggleAgreeRules" class="is-agree" :class="{'e-active': isAgreeRule}"></span>我已阅读并同意 <span @click="$store.commit('toggleRule', true)" class="em">《活动规则》</span> </p>
       <GraphCode
       :graphDialog="graphDialog"
       :inputGraph="inputGraph"
@@ -135,9 +135,9 @@ export default {
           };
         }
       }
-    }, // end readyGetCode
+    },
     /**
-     * 提交手机号和验证码
+     * 发起请求，获取手机号验证码
      */
     fetchCode() {
       let self = this;

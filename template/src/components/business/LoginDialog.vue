@@ -28,22 +28,22 @@ setUserSituation (res) { //业务逻辑
     <div class="dialog e-login" v-show=isShow>
       <!-- <div class="u-mark"></div> -->
       <div class="content">
-            <header class="title">登录</header>
-            <div class="messages hardline">
-                <div class="input-box">
-                    <div class="input-item">
-                        <input v-model="phone" type="tel" maxlength="11" class="j-phone" placeholder="请在此输入手机号码" />
-                    </div>
-                    <div class="input-item">
-                        <input v-model="code" class="e-code j-code" type="tel" maxlength="6"  placeholder="请在此输入验证码" />
-                        <a @click="readyGetCode" class="btn-code j-get-code" :class="{'e-disable' : isGettingCode}" href="javascript:;">\{{codeText}}</a>
-                    </div>
+        <header class="title">登录</header>
+        <div class="messages hardline">
+            <div class="input-box">
+                <div class="input-item">
+                    <input v-model="phone" type="tel" maxlength="11" class="j-phone" placeholder="请在此输入手机号码" />
+                </div>
+                <div class="input-item">
+                    <input v-model="code" class="e-code j-code" type="tel" maxlength="6"  placeholder="请在此输入验证码" />
+                    <a @click="readyGetCode" class="btn-code j-get-code" :class="{'e-disable' : isGettingCode}" href="javascript:;">\{{codeText}}</a>
                 </div>
             </div>
-            <div class="dialog-footer">
-                <a @click="submitLogin" class="btn hardline j-login" href="javascript:;">提交</a>
-            </div>
         </div>
+        <div class="dialog-footer">
+            <a @click="submitLogin" class="btn hardline j-login" href="javascript:;">提交</a>
+        </div>
+      </div>
       <GraphCode
       :graphDialog="graphDialog"
       :inputGraph="inputGraph"
@@ -138,7 +138,10 @@ export default {
           };
         }
       }
-    }, // end readyGetCode
+    },
+    /**
+     * 发起请求，获取手机号验证码
+     */
     fetchCode() {
       let self = this;
       let data = {

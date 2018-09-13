@@ -60,7 +60,7 @@ export default {
       'isShowRules'
     ])
   },
-  mounted () {
+  created () {
     this.$nextTick(function () {
       // Code that will run only after the
       // entire view has been rendered
@@ -76,6 +76,8 @@ export default {
       //   this.$loading().hide();
       // });
     });
+  },
+  mounted () {
     this.toggleQrDialog();
     this.showDialog({
       title: '欢迎',
