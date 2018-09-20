@@ -5,7 +5,7 @@
         <input class="input-graph" maxlength="4"
         :value="inputGraph"
         @input="$emit('inputGraph', $event.target.value)"
-        type="text" placeholder="请输入图形验证码">
+        type="tel" placeholder="请输入图形验证码">
         <div @click="getGraphCode" class="img-graph"><img :src="graphSrc" alt=""></div>
         <a href="javascript:;" @click="getGraphCode" class="refresh-btn"></a>
       </div>
@@ -45,12 +45,15 @@ export default {
   components: {
     Dialog
   },
+  mounted () {
+    this.getGraphCode()
+  },
   methods: {
     /**
      * 获取验证码
      */
     getGraphCode() {
-      this.graphSrc = `/${ACTIVE_NAME}/Api/verifycode?${new Date().getTime()}`;
+      this.graphSrc = `/${ACTIVE_NAME}/Api/userGraphCode?${new Date().getTime()}`;
     }
   }
 }

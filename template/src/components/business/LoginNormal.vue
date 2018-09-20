@@ -125,6 +125,7 @@ export default {
               confirm: {
                 text: '确认',
                 callBack() {
+                  self.graphDialog.isShow = false
                   self.fetchCode()
                 }
               },
