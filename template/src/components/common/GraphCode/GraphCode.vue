@@ -45,8 +45,11 @@ export default {
   components: {
     Dialog
   },
-  mounted () {
-    this.getGraphCode()
+  watch: {
+    graphDialog() {
+      console.log(this.graphDialog.isShow)
+      this.graphDialog.isShow && this.getGraphCode()
+    }
   },
   methods: {
     /**
