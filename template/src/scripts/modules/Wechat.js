@@ -41,12 +41,17 @@ export const wechatConfig = (opts) => {
           signature: content.signature, // 必填，签名，见附录1
           jsApiList: [
             'onMenuShareTimeline',
-            'onMenuShareAppMessage'
+            'onMenuShareAppMessage',
+            'hideMenuItems'
           ] // 必填，需要使用的JS接口列表
         });
         wx.ready(function () {
           wx.onMenuShareAppMessage(options);
           wx.onMenuShareTimeline(options);
+          //批量隐藏功能
+          wx.hideMenuItems({
+            menuList: ['menuItem:copyUrl', 'menuItem:openWithSafari', 'menuItem:openWithQQBrowser'] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+          });
         });
         wx.error(function (res) {
           console.log('wx err ', JSON.stringify(res));
